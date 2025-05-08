@@ -5,45 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auto Ride Partner</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   </head>
   <body>
+    <!-- Floating Auto Elements -->
+    <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="floating-auto" alt="Floating auto">
+    <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="floating-auto" alt="Floating auto">
+    <img src="https://cdn-icons-png.flaticon.com/512/744/744465.png" class="floating-auto" alt="Floating auto">
+    
     <section class="ride-form-container">
-      <div class="ride-form-wrapper">
+      <div class="ride-form-wrapper animate__animated animate__fadeIn">
+        <div class="user-header">
+          <span class="welcome-message">Welcome, {{ username }}!</span>
+          <a href="{{ url_for('logout') }}" class="logout-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+              <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+            Logout
+          </a>
+        </div>
+        
         <header class="ride-form-header">
-          <h1 class="ride-title">
+          <h1 class="ride-title animate__animated animate__fadeInUp">
             <span class="title-bold">Need to</span>
             <span class="title-bold title-large">Travel</span>
             <span class="title-bold">often in a</span>
             <span class="title-bold title-largest">budget?</span>
           </h1>
-          <div class="ride-cta-container">
+          <div class="ride-cta-container animate__animated animate__fadeInUp animate__delay-1s">
             <h2 class="ride-cta-text">FIND YOUR AUTO RIDE PARTNER</h2>
-            <button class="ride-cta-button">Now</button>
+            <button class="ride-cta-button" onclick="document.querySelector('.ride-form').scrollIntoView({ behavior: 'smooth' })">
+              <span>Now</span>
+            </button>
           </div>
         </header>
 
         <form class="ride-form" method="POST" action="/submit">
-          <input type="text" class="form-input name-input" name="name" placeholder="Name" />
-          <input type="text" class="form-input whatsapp-input" name="whatsapp" placeholder="Whatsapp No." />
-          <input type="text" class="form-input departure-input" name="departure" placeholder="Departure" />
-          <input type="text" class="form-input destination-input" name="destination" placeholder="Destination" />
-          <input type="text" class="form-input timing-input" name="timing" placeholder="Timing" />
-          <button type="submit" class="submit-button">SUBMIT</button>
+          <input type="text" class="form-input name-input animate__animated animate__fadeInUp animate__delay-2s" name="name" placeholder="Your Name" required />
+          <input 
+            type="text" 
+            class="form-input whatsapp-input animate__animated animate__fadeInUp animate__delay-2s" 
+            name="whatsapp" 
+            placeholder="WhatsApp Number" 
+            value="{{ phone }}" 
+            required 
+          />
+          <input type="text" class="form-input departure-input animate__animated animate__fadeInUp animate__delay-3s" name="departure" placeholder="Departure Location" required />
+          <input type="text" class="form-input destination-input animate__animated animate__fadeInUp animate__delay-3s" name="destination" placeholder="Destination" required />
+          <input type="text" class="form-input timing-input animate__animated animate__fadeInUp animate__delay-4s" name="timing" placeholder="Preferred Timing" required />
+          <button type="submit" class="submit-button animate__animated animate__fadeInUp animate__delay-4s">
+            <span>SUBMIT</span>
+          </button>
 
           <div class="image-row">
             <img
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/5aea9550d7a2d881122dd086e82da7d0ef76cb4f?placeholderIfAbsent=true"
-              alt="Left Decorative"
-              class="form-image"
+              alt="Auto Illustration"
+              class="form-image animate__animated animate__fadeIn animate__delay-5s"
             />
             <img
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/36461c7be130be0002f7ef7998751d378eecf04d?placeholderIfAbsent=true"
-              alt="Right Decorative"
-              class="form-image"
+              alt="Happy Riders"
+              class="form-image animate__animated animate__fadeIn animate__delay-5s"
             />
           </div>
         </form>
       </div>
     </section>
+
+    <script>
+      // Add animation on scroll
+      document.addEventListener('DOMContentLoaded', function() {
+        const animatedElements = document.querySelectorAll('.animate__animated');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const animation = entry.target.getAttribute('data-animate');
+              entry.target.classList.add(animation);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1
+        });
+
+        animatedElements.forEach(element => {
+          observer.observe(element);
+        });
+
+        // Button ripple effect
+        const buttons = document.querySelectorAll('.submit-button, .auth-button, .ride-cta-button');
+        buttons.forEach(button => {
+          button.addEventListener('click', function(e) {
+            const x = e.clientX - e.target.getBoundingClientRect().left;
+            const y = e.clientY - e.target.getBoundingClientRect().top;
+            
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 1000);
+          });
+        });
+      });
+    </script>
   </body>
 </html>
