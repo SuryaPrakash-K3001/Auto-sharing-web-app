@@ -34,7 +34,8 @@ def send_whatsapp_message(to, message):
         "body": message
     }
     try:
-        requests.post(url, data=payload)
+        response = requests.post(url, data=payload)
+        print("WhatsApp API Response:", response.text)
     except Exception as e:
         print("Failed to send message:", e)
 
@@ -143,9 +144,14 @@ def submit():
     matched_row = None
     matched_index = None
     for idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
-        if (clean_input(row[2]) == departure and 
-            clean_input(row[3]) == destination and 
-            clean_input(row[4]) == time and 
+        # Clean the data from Excel before comparison
+        row_departure = clean_input(row[2])
+        row_destination = clean_input(row[3])
+        row_time = clean_input(row[4])
+        
+        if (row_departure == departure and 
+            row_destination == destination and 
+            row_time == time and 
             row[5] != session['user_id']):
             matched_row = {
                 "name": row[0],
@@ -161,8 +167,11 @@ def submit():
         
         # Send notifications to both users
         msg = f"You have a ride partner!\nName: {matched_row['name']}\nPhone: {matched_row['phone']}"
+        print(f"Attempting to send message to {phone}: {msg}")  # Debug print
         send_whatsapp_message(phone, msg)
+        
         reverse_msg = f"You have a ride partner!\nName: {name}\nPhone: {phone}"
+        print(f"Attempting to send message to {matched_row['phone']}: {reverse_msg}")  # Debug print
         send_whatsapp_message(matched_row['phone'], reverse_msg)
         
         wb.save(EXCEL_FILE)
