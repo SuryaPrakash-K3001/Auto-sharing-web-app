@@ -1,4 +1,3 @@
-# Updated app.py with matched ride removal
 from flask import Flask, request, render_template, redirect, url_for, session, flash
 from openpyxl import Workbook, load_workbook
 import os
@@ -39,6 +38,10 @@ def send_whatsapp_message(to, message):
     except Exception as e:
         print("Failed to send message:", e)
 
+def clean_input(input_str):
+    """Trim whitespace and convert to lowercase for consistent matching"""
+    return input_str.strip().lower() if input_str else ""
+
 @app.route('/')
 def home():
     if 'user_id' in session:
@@ -51,7 +54,7 @@ def login():
         return redirect(url_for('dashboard'))
     
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = clean_input(request.form.get('username'))
         password = request.form.get('password')
         
         wb = load_workbook(USERS_FILE)
@@ -59,7 +62,7 @@ def login():
         
         user = None
         for row in ws.iter_rows(min_row=2, values_only=True):
-            if row[0] == username:
+            if clean_input(row[0]) == username:
                 user = {
                     "username": row[0],
                     "password": row[1],
@@ -82,9 +85,9 @@ def signup():
         return redirect(url_for('dashboard'))
     
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = clean_input(request.form.get('username'))
         password = request.form.get('password')
-        phone = request.form.get('phone')
+        phone = request.form.get('phone').strip()  # Only trim phone number, don't lowercase
         
         if not all([username, password, phone]):
             flash('All fields are required')
@@ -95,7 +98,7 @@ def signup():
         
         # Check if username already exists
         for row in ws.iter_rows(min_row=2, values_only=True):
-            if row[0] == username:
+            if clean_input(row[0]) == username:
                 flash('Username already exists')
                 return redirect(url_for('signup'))
         
@@ -125,11 +128,11 @@ def submit():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    name = request.form.get('name')
-    phone = request.form.get('whatsapp') or session.get('phone')
-    departure = request.form.get('departure')
-    destination = request.form.get('destination')
-    time = request.form.get('timing')
+    name = request.form.get('name').strip()
+    phone = (request.form.get('whatsapp') or session.get('phone')).strip()
+    departure = clean_input(request.form.get('departure'))
+    destination = clean_input(request.form.get('destination'))
+    time = clean_input(request.form.get('timing'))
 
     if not all([name, phone, departure, destination, time]):
         return "All fields are required."
@@ -140,7 +143,10 @@ def submit():
     matched_row = None
     matched_index = None
     for idx, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
-        if row[2] == departure and row[3] == destination and row[4] == time and row[5] != session['user_id']:
+        if (clean_input(row[2]) == departure and 
+            clean_input(row[3]) == destination and 
+            clean_input(row[4]) == time and 
+            row[5] != session['user_id']):
             matched_row = {
                 "name": row[0],
                 "phone": row[1],
