@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto Ride Partner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <section class="ride-form-container">
+      <div class="ride-form-wrapper">
+        <header class="ride-form-header">
+          <h1 class="ride-title">
+            <span class="title-bold">Need to</span>
+            <span class="title-bold title-large">Travel</span>
+            <span class="title-bold">often in a</span>
+            <span class="title-bold title-largest">budget?</span>
+          </h1>
+          <div class="ride-cta-container">
+            <h2 class="ride-cta-text">FIND YOUR AUTO RIDE PARTNER</h2>
+            <button class="ride-cta-button">Now</button>
+          </div>
+        </header>
+
+        <form class="ride-form" method="POST" action="/submit">
+          <input type="text" class="form-input name-input" name="name" placeholder="Name" />
+          <input type="text" class="form-input whatsapp-input" name="whatsapp" placeholder="Whatsapp No." />
+          <input type="text" class="form-input departure-input" name="departure" placeholder="Departure" />
+          <input type="text" class="form-input destination-input" name="destination" placeholder="Destination" />
+          <input type="text" class="form-input timing-input" name="timing" placeholder="Timing" />
+          <button type="submit" class="submit-button">SUBMIT</button>
+
+          <div class="image-row">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/5aea9550d7a2d881122dd086e82da7d0ef76cb4f?placeholderIfAbsent=true"
+              alt="Left Decorative"
+              class="form-image"
+            />
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/36461c7be130be0002f7ef7998751d378eecf04d?placeholderIfAbsent=true"
+              alt="Right Decorative"
+              class="form-image"
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+/* Container styling */
+.ride-form-container {
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Form wrapper */
+.ride-form-wrapper {
+  background-color: #f6ffb2;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title styling */
+.ride-title {
+  font-family: Inter, sans-serif;
+  font-weight: 500;
+  text-align: center;
+  color: #000;
+  font-size: 24px;
+  margin: 0;
+}
+
+.title-bold {
+  font-weight: 800;
+}
+.title-large {
+  font-size: 32px;
+}
+.title-largest {
+  font-size: 48px;
+}
+
+/* CTA Section */
+.ride-cta-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 860px;
+  gap: 20px;
+}
+
+.ride-cta-text {
+  font-size: 32px;
+  font-weight: 800;
+  color: #000;
+}
+
+.ride-cta-button {
+  border: none;
+  border-radius: 35px;
+  background-color: #ff1919;
+  color: #fff;
+  font-size: 48px;
+  font-weight: 800;
+  padding: 13px 30px;
+  cursor: pointer;
+}
+
+/* Form styling */
+.ride-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Input fields */
+.form-input {
+  width: 443px;
+  max-width: 100%;
+  padding: 12px 20px;
+  margin-top: 20px;
+  font-size: 24px;
+  border: none;
+  border-radius: 15px;
+  font-family: Inter, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Submit button */
+.submit-button {
+  margin-top: 30px;
+  padding: 17px 40px;
+  background-color: #f79327;
+  color: #000;
+  font-size: 28px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+}
+
+/* Image row (below submit button) */
+.image-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.form-image {
+  max-width: 400px;
+  width: 20%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .ride-cta-button {
+    font-size: 32px;
+    padding: 10px 20px;
+  }
+
+  .ride-cta-text {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .form-input {
+    font-size: 20px;
+  }
+
+  .submit-button {
+    font-size: 24px;
+  }
+
+  .form-image {
+    max-width: 100%;
+  }
+}
+
